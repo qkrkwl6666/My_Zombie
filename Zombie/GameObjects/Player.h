@@ -2,6 +2,7 @@
 #include "SpriteGo.h"
 #include "ShapeGo.h"
 
+class TileMap;
 class Bullet;
 
 class Player : public SpriteGo
@@ -17,6 +18,8 @@ protected:
 	ShapeGo<sf::RectangleShape>* hpBar;
 	int maxHp = 500;
 	SpriteGo* crosshHair;
+	TileMap* tileMap;
+	sf::FloatRect tileMapBounds;
 
 public:
 	Player(const std::string& name = "");

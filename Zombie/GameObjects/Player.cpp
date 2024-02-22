@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 #include "Bullet.h"
+#include "TileMap.h"
 
 Player::Player(const std::string& name)
 	: SpriteGo(name)
@@ -21,11 +22,16 @@ void Player::Init()
 	crosshHair->sortLayer = 11;
 	SCENE_MGR.GetCurrentScene()->AddGo(crosshHair);
 
+	tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
+	tileMapBounds = tileMap->GetBounds();
+
+	
 	//hpBar = new ShapeGo<sf::RectangleShape>("hpBar");
 	//hpBar->SetScale({ 500.f , 80.f });
 	//hpBar->sortLayer = 11;
 	//SCENE_MGR.GetCurrentScene()->AddGo(hpBar , Scene::Layers::Ui);
 	//hpBar->SetPosition(position);
+
 }
 
 void Player::Release()
@@ -72,11 +78,22 @@ void Player::Update(float dt)
 		Utils::Nomalize(direction);
 	}
 
-	
-
-	SetPosition(position + direction * speed * dt);
+	sf::Vector2f newPos = position + direction * speed * dt;
 
 
+	float halfWidth = tileMapBounds.width / 2;
+	float halfHeight = tileMapBounds.height / 2;
+
+	float leftBound = tileMapBounds.left - halfWidth + 50.f;
+	float rightBound = tileMapBounds.left + halfWidth - 50.f;
+	float topBound = tileMapBounds.top - halfHeight + 50.f;
+	float bottomBound = tileMapBounds.top + halfHeight - 50.f;
+
+	if (newPos.x > leftBound && newPos.x < rightBound
+		&& newPos.y > topBound && newPos.y < bottomBound)
+	{
+		SetPosition(newPos);
+	}
 
 	look = mouseWorldPos - position;
 	Utils::Nomalize(look);
