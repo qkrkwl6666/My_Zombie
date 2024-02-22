@@ -17,8 +17,8 @@ public:
 	void SetDamage(float damage) { this->damage = damage; }
 
 	float timer = 0.f;
-	float removeTime = 5.f;
-
+	float removeTime = 3.f;
+	float isRemove = false;
 
 protected:
 	Player* player;

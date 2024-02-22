@@ -108,8 +108,11 @@ void TileMap::UpdateTransform()
 	transform.rotate(rotation, position.x, position.y);
 
 	transform.translate(position - origin);
+}
 
-	
+sf::FloatRect TileMap::GetBounds()
+{
+	return bounds;
 }
 
 void TileMap::SetScale(const sf::Vector2f& scale)
@@ -140,7 +143,7 @@ void TileMap::Init()
 {
 	GameObject::Init();
 	SetSpriteSheetId("graphics/background_sheet.png");
-	Set({ 10,10 }, { 50.f, 50.f });
+	Set({ 50,50 }, { 50.f, 50.f });
 	//SetOrigin(Origins::MC);
 }
 

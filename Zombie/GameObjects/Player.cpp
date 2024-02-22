@@ -14,11 +14,18 @@ void Player::Init()
 	//InputMgr::Init();
 	SetTexture("graphics/player.png");
 	SetOrigin(Origins::MC);
-	hpBar = new ShapeGo<sf::RectangleShape>("hpBar");
-	hpBar->SetScale({ 500.f , 80.f });
-	hpBar->sortLayer = 11;
-	SCENE_MGR.GetCurrentScene()->AddGo(hpBar , Scene::Layers::Ui);
-	hpBar->SetPosition(position);
+
+	crosshHair = new SpriteGo("Crosshair");
+	crosshHair->SetTexture("graphics/crosshair.png");
+	crosshHair->SetOrigin(Origins::MC);
+	crosshHair->sortLayer = 11;
+	SCENE_MGR.GetCurrentScene()->AddGo(crosshHair);
+
+	//hpBar = new ShapeGo<sf::RectangleShape>("hpBar");
+	//hpBar->SetScale({ 500.f , 80.f });
+	//hpBar->sortLayer = 11;
+	//SCENE_MGR.GetCurrentScene()->AddGo(hpBar , Scene::Layers::Ui);
+	//hpBar->SetPosition(position);
 }
 
 void Player::Release()
@@ -37,8 +44,6 @@ void Player::Reset()
 	SpriteGo::Reset();
 }
 
-
-
 sf::FloatRect Player::GetGlobalBounds()
 {
 	return sprite.getGlobalBounds();
@@ -53,6 +58,8 @@ void Player::Update(float dt)
 	sf::Vector2i mousePos = (sf::Vector2i)InputMgr::GetMousePos();
 	sf::Vector2f mouseWorldPos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(mousePos);
 
+	crosshHair->SetPosition(mouseWorldPos);
+
 	float h = InputMgr::GetAxis(Axis::Horizontal);
 	float v = InputMgr::GetAxis(Axis::Vertical);
 
@@ -65,13 +72,17 @@ void Player::Update(float dt)
 		Utils::Nomalize(direction);
 	}
 
+	
+
 	SetPosition(position + direction * speed * dt);
+
+
 
 	look = mouseWorldPos - position;
 	Utils::Nomalize(look);
 	SetRotation(Utils::Angle(look));
 
-	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	if (InputMgr::GetMouseButton(sf::Mouse::Left))
 	{
 		Bullet* bullet = new Bullet();
 		bullet->Init();
@@ -79,9 +90,25 @@ void Player::Update(float dt)
 		SCENE_MGR.GetCurrentScene()->AddGo(bullet);
 	}
 
+	auto it = bullets.begin();
+	while (it != bullets.end())
+	{
+		Bullet* bullet = *it;
+		if (bullet->isRemove)
+		{
+			SCENE_MGR.GetCurrentScene()->RemoveGo(bullet);
+			it = bullets.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
+
 }
 
 void Player::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
+	window.setMouseCursorVisible(false); // 마우스커서 비활성화
 }

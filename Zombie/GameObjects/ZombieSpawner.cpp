@@ -30,7 +30,7 @@ void ZombieSpawner::Reset()
 	zombieTypes.push_back(ZombieGo::Types::Crawler);
 
 	interval = 1.f;
-	spawnCount = 1;
+	spawnCount = 10;
 	radius = 250.f;
 	timer = 0.f;
 

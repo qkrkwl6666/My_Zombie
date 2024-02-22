@@ -98,24 +98,49 @@ void ZombieGo::ZombieDied()
 {
 	zombieBounds = sprite.getGlobalBounds();
 
-	std::vector<Bullet*> bullet = player->bullets;
-	// auto it = bullet.begin();
+	std::list<Bullet*>& bullets = player->bullets;
+	
+	auto it = bullets.begin();
 
-	for (int i = 0; i < bullet.size(); i++)
+	while (it != bullets.end())
 	{
-		if (zombieBounds.intersects(bullet[i]->GetGlobalBounds()))
+		Bullet* bullet = *it;
+
+		if (zombieBounds.intersects(bullet->GetGlobalBounds()))
 		{
-			hp -= bullet[i]->GetDamage();
-			bullet[i]->SetDamage(0);
-			SCENE_MGR.GetCurrentScene()->RemoveGo(bullet[i]);
-			//bullet.erase(bullet.begin() + i);
+			hp -= bullet->GetDamage();
+			SCENE_MGR.GetCurrentScene()->RemoveGo(bullet);
+
+			bullet->isRemove = true;
+			it = bullets.erase(it);
 
 			if (hp < 0)
 			{
 				isDead = true;
 				SCENE_MGR.GetCurrentScene()->RemoveGo(this);
 			}
-			return;
+		}
+		else
+		{
+			it++;
 		}
 	}
+
+	//for (int i = 0; i < bullet.size(); i++)
+	//{
+	//	if (zombieBounds.intersects(bullet[i]->GetGlobalBounds()))
+	//	{
+	//		hp -= bullet[i]->GetDamage();
+	//		bullet[i]->SetDamage(0);
+	//		SCENE_MGR.GetCurrentScene()->RemoveGo(bullet[i]);
+	//		//bullet.erase(bullet.begin() + i);
+
+	//		if (hp < 0)
+	//		{
+	//			isDead = true;
+	//			SCENE_MGR.GetCurrentScene()->RemoveGo(this);
+	//		}
+	//		return;
+	//	}
+	//}
 }

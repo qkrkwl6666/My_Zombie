@@ -11,7 +11,7 @@ void Bullet::Init()
 {
 	GameObject::Init();
 
-	shape.setRadius(10.f);
+	shape.setRadius(5.5f);
 	SetColor(sf::Color::Yellow);
 	SetOrigin(Origins::MC);
 
@@ -45,13 +45,11 @@ void Bullet::Update(float dt)
 {
 	ShapeGo::Update(dt);
 	timer += dt;
-	if (timer > removeTime)
+
+	if (timer > removeTime && !isRemove)
 	{
-		timer = 0.f;
-		SCENE_MGR.GetCurrentScene()->RemoveGo(this);
+		isRemove = true;
 	}
 
 	Translate(direction * dt * speed);
-
-	
 }

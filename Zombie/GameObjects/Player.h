@@ -16,6 +16,7 @@ protected:
 	std::string textureId;
 	ShapeGo<sf::RectangleShape>* hpBar;
 	int maxHp = 500;
+	SpriteGo* crosshHair;
 
 public:
 	Player(const std::string& name = "");
@@ -30,6 +31,6 @@ public:
 	 void Update(float dt) override;
 	 void Draw(sf::RenderWindow& window) override;
 
-	 std::vector<Bullet*> bullets;
+	 std::list<Bullet*> bullets;
 };
 

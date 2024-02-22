@@ -26,6 +26,8 @@ public:
 	void Translate(const sf::Vector2f& delta);
 	void UpdateTransform();
 
+	sf::FloatRect GetBounds();
+
 	void SetSpriteSheetId(const std::string& id);
 
 	void SetPosition(const sf::Vector2f& pos) override;
