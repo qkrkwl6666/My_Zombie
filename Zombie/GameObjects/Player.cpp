@@ -25,13 +25,6 @@ void Player::Init()
 	tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
 	tileMapBounds = tileMap->GetBounds();
 
-	
-	//hpBar = new ShapeGo<sf::RectangleShape>("hpBar");
-	//hpBar->SetScale({ 500.f , 80.f });
-	//hpBar->sortLayer = 11;
-	//SCENE_MGR.GetCurrentScene()->AddGo(hpBar , Scene::Layers::Ui);
-	//hpBar->SetPosition(position);
-
 }
 
 void Player::Release()
@@ -79,7 +72,6 @@ void Player::Update(float dt)
 	}
 
 	sf::Vector2f newPos = position + direction * speed * dt;
-
 
 	float halfWidth = tileMapBounds.width / 2;
 	float halfHeight = tileMapBounds.height / 2;

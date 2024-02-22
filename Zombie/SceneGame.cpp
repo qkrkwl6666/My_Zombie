@@ -23,9 +23,9 @@ void SceneGame::Init()
 	titleBackground->SetOrigin(Origins::MC);
 
 	// score
-	score = new Score("Score");
-	
-	AddGo(score, Scene::Layers::Ui);
+	//score = new Score("Score");
+	//
+	//AddGo(score, Scene::Layers::Ui);
 	
 	AddGo(titleBackground);
 
